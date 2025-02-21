@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.APP_PORT || 4579;
 
 app.use(express.json());
-app.use("/azure", ocrRouter);
+app.use("/ocr", ocrRouter);
 
 app.listen(port, () => {
   console.log(`ocr violation management server listening at ${port}`);
