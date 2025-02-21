@@ -1,11 +1,12 @@
 const express = require("express");
 require("dotenv").config();
-const azureRouter = require("./src/router");
+const ocrRouter = require("./src/ocr/router");
+
 const app = express();
-const port = 4579;
+const port = process.env.APP_PORT || 4579;
 
 app.use(express.json());
-app.use("/azure", azureRouter);
+app.use("/azure", ocrRouter);
 
 app.listen(port, () => {
   console.log(`ocr violation management server listening at ${port}`);
