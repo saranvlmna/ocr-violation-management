@@ -9,6 +9,7 @@ export default async (req, res) => {
     let jsonData = {};
 
     const fileUrl = await azureFileUpload(req.file);
+
     if (mimetype == "image/jpeg" || mimetype == "image/png") jsonData = await openaiImageToJsonExtractor(fileUrl);
     if (mimetype == "application/pdf") {
       const pdfText = await azurePdfTotextExtractor(fileUrl);

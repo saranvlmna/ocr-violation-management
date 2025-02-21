@@ -1,13 +1,14 @@
 import axios from "axios";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_API_URL = process.env.OPENAI_API_URL;
 
 export default async (text) => {
   try {
     if (!text) throw new Error("No text found.");
 
     const response = await axios.post(
-      "https://api.openai.com/v1/chat/completions",
+      OPENAI_API_URL,
       {
         model: "gpt-4o-mini",
         messages: [
