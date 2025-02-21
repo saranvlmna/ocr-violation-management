@@ -6,5 +6,6 @@ module.exports = async (req, res) => {
     return res.json({ fileUrl });
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
