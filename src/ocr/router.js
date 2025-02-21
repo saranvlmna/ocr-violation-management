@@ -1,8 +1,9 @@
-const ocrRouter = require("express").Router();
-const multer = require("multer");
-const upload = multer({ storage: multer.memoryStorage() });
-const ocrExtract = require("./ocr.extract");
+import { Router } from "express";
+import multer, { memoryStorage } from "multer";
+import ocrExtract from "./ocr.extract.js";
+const ocrRouter = Router();
+const upload = multer({ storage: memoryStorage() });
 
 ocrRouter.post("/", upload.single("file"), ocrExtract);
 
-module.exports = ocrRouter;
+export default ocrRouter;

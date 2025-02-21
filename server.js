@@ -1,11 +1,11 @@
-const express = require("express");
-require("dotenv").config();
-const ocrRouter = require("./src/ocr/router");
+import "dotenv/config";
+import express, { json } from "express";
+import ocrRouter from "./src/ocr/router.js";
 
 const app = express();
 const port = process.env.APP_PORT || 4579;
 
-app.use(express.json());
+app.use(json());
 app.use("/ocr", ocrRouter);
 
 app.listen(port, () => {
