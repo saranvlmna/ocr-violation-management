@@ -25,6 +25,7 @@
   "homepage": "https://github.com/saranvlmna/orc-violation-management#readme",
   "dependencies": {
     "@azure/cognitiveservices-computervision": "^8.2.0",
+    "@azure/cosmos": "^4.2.0",
     "@azure/storage-blob": "^12.26.0",
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
