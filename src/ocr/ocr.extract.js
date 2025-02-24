@@ -1,5 +1,6 @@
 import azureFileUpload from "./lib/azure.fileUpload.js";
 import azurePdfTotextExtractor from "./lib/azure.pdfTotext.extractor.js";
+import ocrExtractCreate from "./lib/ocr.extract.create.js";
 import openaiImageToJsonExtractor from "./lib/openai.imageToJson.extractor.js";
 import openaiTextToJsonExtractor from "./lib/openai.textToJson.extractor.js";
 
@@ -15,6 +16,9 @@ export default async (req, res) => {
       const pdfText = await azurePdfTotextExtractor(fileUrl);
       if (pdfText) jsonData = await openaiTextToJsonExtractor(pdfText);
     }
+
+    const result = await ocrExtractCreate(jsonData);
+    console.log(result);
 
     return res.json({ fileUrl, jsonData });
   } catch (error) {
