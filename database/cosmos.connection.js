@@ -1,23 +1,24 @@
-import "dotenv/config";
 import { CosmosClient } from "@azure/cosmos";
-const endpoint = process.env.COSMOS_DB_ENDPOINT;
-const key = process.env.COSMOS_DB_KEY;
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
+const uri = process.env.COSMOS_DB_ENDPOINT;
 const databaseId = process.env.COSMOS_DB_DATABASE;
-const containerId = process.env.COSMOS_DB_CONTAINER;
 
-const client = new CosmosClient({ endpoint, key });
+export default async () => {
+  try {
+    const credential = new DefaultAzureCredential();
 
-async function getDatabase() {
-  const { database } = await client.databases.createIfNotExists({ id: databaseId });
-  console.log(`Connected to database: ${database.id}`);
-  return database;
-}
+    const client = new CosmosClient({
+      endpoint: uri,
+      aadCredentials: credential,
+    });
 
-async function getContainer() {
-  const database = await getDatabase();
-  const { container } = await database.containers.createIfNotExists({ id: containerId });
-  console.log(`Connected to container: ${container.id}`);
-  return container;
-}
-
-export default { client, getDatabase, getContainer };
+    const database = client.database(databaseId);
+    console.log("Connected to Cosmos DB (MongoDB API)");
+    return database;
+  } catch (error) {
+    console.error("Failed to connect to Cosmos DB:", error.message);
+    throw error;
+  }
+};
