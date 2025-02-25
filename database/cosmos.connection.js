@@ -15,7 +15,7 @@ export default async () => {
     });
 
     const database = client.database(databaseId);
-    console.log("Connected to Cosmos DB (MongoDB API)");
+    console.log("Connected to Cosmos DB");
     return database;
   } catch (error) {
     console.error("Failed to connect to Cosmos DB:", error.message);
