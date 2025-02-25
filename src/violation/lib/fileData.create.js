@@ -5,9 +5,9 @@ export default async (data) => {
     const { tollId, url, type, status } = data;
 
     const database = await getDatabase();
-    const container = database.container({ tollId, url, type, status });
+    const container = database.container("fileData");
 
-    return container.items.create(data);
+    return container.items.create({ tollId, url, type, status });
   } catch (error) {
     console.log(error);
     throw error;
