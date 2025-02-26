@@ -1,3 +1,4 @@
+import createViolation from "../violation/lib/violation.create.js";
 import azureFileUpload from "./lib/azure.fileUpload.js";
 import azurePdfTotextExtractor from "./lib/azure.pdfTotext.extractor.js";
 import openaiImageToJsonExtractor from "./lib/openai.imageToJson.extractor.js";
@@ -16,7 +17,7 @@ export default async (req, res) => {
       if (pdfText) jsonData = await openaiTextToJsonExtractor(pdfText);
     }
 
-    console.log(jsonData);
+    await createViolation(jsonData, fileUrl, mimetype);
 
     return res.json({ fileUrl, jsonData });
   } catch (error) {

@@ -13,7 +13,7 @@ export default async (fileUrl) => {
           {
             role: "system",
             content:
-              "Extract structured JSON from the given document, ensuring that all details are preserved without wrapping them inside any extra key. The 'authority_name' should be a separate key-value pair at the top level, followed by all relevant invoice details in a well-structured format.",
+              "Extract structured JSON from the given document, ensuring that all details are preserved without wrapping them inside any extra key. The 'authority_name' and 'invoice_number' should be a separate key-value pair at the top level, followed by all relevant invoice details in a well-structured format.",
           },
           {
             role: "user",
