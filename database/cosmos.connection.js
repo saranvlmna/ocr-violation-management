@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
-const uri = process.env.COSMOS_DB_ENDPOINT;
-const database = process.env.COSMOS_DB_DATABASE;
+const uri = process.env.AZURE_COSMOS_DB_ENDPOINT;
+const database = process.env.AZURE_COSMOS_DB_DATABASE;
 
 let client;
 
