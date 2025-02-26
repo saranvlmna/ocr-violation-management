@@ -2,13 +2,14 @@ import axios from "axios";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_API_URL = process.env.OPENAI_API_URL;
+const OPENAI_OCR_MODEL = process.env.OPENAI_OCR_MODEL;
 
 export default async (fileUrl) => {
   try {
     const response = await axios.post(
-      OPENAI_API_URL,
+      `${OPENAI_API_URL}/chat/completions`,
       {
-        model: "gpt-4o-mini",
+        model: OPENAI_OCR_MODEL,
         messages: [
           {
             role: "system",

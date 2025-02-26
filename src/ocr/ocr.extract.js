@@ -1,4 +1,4 @@
-import createViolation from "../violation/lib/violation.create.js";
+import jsonToDbProccess from "../violation/violation.process.js";
 import azureFileUpload from "./lib/azure.fileUpload.js";
 import azurePdfTotextExtractor from "./lib/azure.pdfTotext.extractor.js";
 import openaiImageToJsonExtractor from "./lib/openai.imageToJson.extractor.js";
@@ -11,13 +11,14 @@ export default async (req, res) => {
 
     const fileUrl = await azureFileUpload(req.file);
 
-    if (mimetype == "image/jpeg" || mimetype == "image/png") jsonData = await openaiImageToJsonExtractor(fileUrl);
+    if (mimetype == "image/jpeg" || mimetype == "image/png")
+      jsonData = await openaiImageToJsonExtractor(fileUrl);
     if (mimetype == "application/pdf") {
       const pdfText = await azurePdfTotextExtractor(fileUrl);
       if (pdfText) jsonData = await openaiTextToJsonExtractor(pdfText);
     }
 
-    await createViolation(jsonData, fileUrl, mimetype);
+    await jsonToDbProccess(jsonData, fileUrl, mimetype);
 
     return res.json({ fileUrl, jsonData });
   } catch (error) {

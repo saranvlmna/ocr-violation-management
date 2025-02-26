@@ -2,15 +2,16 @@ import axios from "axios";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_API_URL = process.env.OPENAI_API_URL;
+const OPENAI_OCR_MODEL = process.env.OPENAI_OCR_MODEL;
 
 export default async (text) => {
   try {
     if (!text) throw new Error("No text found.");
 
     const response = await axios.post(
-      OPENAI_API_URL,
+      `${OPENAI_API_URL}/chat/completions`,
       {
-        model: "gpt-4o-mini",
+        model: OPENAI_OCR_MODEL,
         messages: [
           {
             role: "system",
@@ -29,7 +30,11 @@ export default async (text) => {
       }
     );
 
-    return JSON.parse(response.data.choices[0].message.content.trim().replace(/^```json\n|```$/g, ""));
+    return JSON.parse(
+      response.data.choices[0].message.content
+        .trim()
+        .replace(/^```json\n|```$/g, "")
+    );
   } catch (error) {
     console.log(error.response?.data || error.message);
     throw error;
