@@ -2,12 +2,12 @@ import getDatabase from "../../../database/cosmos.connection.js";
 
 export default async (data) => {
   try {
-    const { tollName, status } = data;
+    const { tollName } = data;
 
     const database = await getDatabase();
-    const container = database.container("tollDetailes");
+    const collection = database.collection("tollDetails");
 
-    return container.items.create({ tollName, status });
+    return await collection.insertOne({ tollName, isActive: true, createdAt: new Date(), updatedAt: new Date() });
   } catch (error) {
     console.log(error);
     throw error;
