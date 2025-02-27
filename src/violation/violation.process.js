@@ -1,3 +1,4 @@
+import getDatabase from "../../database/cosmos.connection.js";
 import createFileDetails from "./lib/file.create.js";
 import findFileDetails from "./lib/file.findOne.js";
 import jsonToEmbedding from "./lib/openai.embedding.js";
@@ -29,6 +30,13 @@ export default async (jsonData, fileUrl, mimeType) => {
     if (isTollExist && isFileExist) {
       jsonData["fileUrl"] = fileUrl;
       jsonData["fileDetailsId"] = isTollExist.insertedId || isTollExist._id;
+      jsonData["createdAt"] = new Date();
+      jsonData["updatedAt"] = new Date();
+
+      const database = await getDatabase();
+      const collection = database.collection("violationDetails");
+      await collection.insertOne(jsonData);
+
       const embbedding = await jsonToEmbedding(JSON.stringify(jsonData));
       return await insetToVectorDb(embbedding, jsonData);
     }
