@@ -11,16 +11,15 @@ export default async (req, res) => {
 
     const fileUrl = await azureFileUpload(req.file);
 
-    if (mimetype == "image/jpeg" || mimetype == "image/png")
-      jsonData = await openaiImageToJsonExtractor(fileUrl);
+    if (mimetype == "image/jpeg" || mimetype == "image/png") jsonData = await openaiImageToJsonExtractor(fileUrl);
     if (mimetype == "application/pdf") {
       const pdfText = await azurePdfTotextExtractor(fileUrl);
       if (pdfText) jsonData = await openaiTextToJsonExtractor(pdfText);
     }
 
-    await jsonToDbProccess(jsonData, fileUrl, mimetype);
+    const result = await jsonToDbProccess(jsonData, fileUrl, mimetype);
 
-    return res.json({ fileUrl, jsonData });
+    return res.json({ data: result });
   } catch (error) {
     console.log(error);
     throw error;

@@ -30,11 +30,7 @@ export default async (text) => {
       }
     );
 
-    return JSON.parse(
-      response.data.choices[0].message.content
-        .trim()
-        .replace(/^```json\n|```$/g, "")
-    );
+    return JSON.parse(response.data.choices[0].message.content.trim().replace(/^```json\n|```$/g, ""));
   } catch (error) {
     console.log(error.response?.data || error.message);
     throw error;
