@@ -5,7 +5,7 @@ import ocrRouter from "./src/ocr/router.js";
 import violationRouter from "./src/violation/router.js";
 
 const app = express();
-const port = process.env.APP_PORT || 4579;
+const port = process.env.SERVICE_PORT;
 await cosmosConnection();
 
 app.use(json());
