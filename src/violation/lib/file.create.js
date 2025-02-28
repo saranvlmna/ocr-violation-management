@@ -7,6 +7,7 @@ export default async (tollId, invoiceNumber, url, type) => {
 
     return await collection.insertOne({
       tollId,
+      isActive: true,
       invoiceNumber,
       url,
       type,
