@@ -10,6 +10,10 @@ await cosmosConnection();
 
 app.use(json());
 
+app.get("/", (req, res) => {
+  return res.send("hey ocr!");
+});
+
 app.use("/ocr", ocrRouter);
 app.use("/violation", violationRouter);
 
