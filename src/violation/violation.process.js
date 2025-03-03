@@ -12,18 +12,17 @@ export default async (jsonData, fileUrl, mimeType) => {
 
     let isTollExist = await findTollDetails(authority_name);
     if (!isTollExist) isTollExist = await createToll({ tollName: authority_name });
+    jsonData["fileUrl"] = fileUrl;
+    jsonData["fileDetailsId"] = isTollExist.insertedId || isTollExist._id;
+    jsonData["createdAt"] = new Date();
+    jsonData["updatedAt"] = new Date();
 
     let isFileExist = await findFileDetails(isTollExist.insertedId || isTollExist._id, invoice_number);
-    if (isFileExist) return;
+    if (isFileExist) return jsonData;
 
     isFileExist = await createFileDetails(isTollExist.insertedId || isTollExist._id, invoice_number, fileUrl, mimeType);
 
     if (isTollExist && isFileExist) {
-      jsonData["fileUrl"] = fileUrl;
-      jsonData["fileDetailsId"] = isTollExist.insertedId || isTollExist._id;
-      jsonData["createdAt"] = new Date();
-      jsonData["updatedAt"] = new Date();
-
       const database = await getDatabase();
       const collection = database.collection("violationDetails");
       await collection.insertOne(jsonData);
@@ -32,6 +31,8 @@ export default async (jsonData, fileUrl, mimeType) => {
       // return await insetToVectorDb(embbedding, jsonData);
       return jsonData;
     }
+
+    return jsonData;
   } catch (error) {
     console.log(error);
     throw error;
