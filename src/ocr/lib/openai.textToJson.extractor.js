@@ -16,7 +16,7 @@ export default async (text) => {
           {
             role: "system",
             content:
-              "Extract structured JSON from the given document, ensuring that all details are preserved without wrapping them inside any extra key. The 'authority_name' and 'invoice_number' should be a separate key-value pair at the top level, followed by all relevant invoice details in a well-structured format.",
+              "Extract structured JSON from the given document, ensuring that all details are preserved without wrapping them inside any extra key. The 'authority_name' and 'invoice_number' should be a separate key-value pair at the top level, followed by all relevant invoice details in a well-structured format.with a 'confidence_level' key with a numerical value",
           },
           { role: "user", content: text },
         ],
@@ -30,7 +30,11 @@ export default async (text) => {
       }
     );
 
-    return JSON.parse(response.data.choices[0].message.content.trim().replace(/^```json\n|```$/g, ""));
+    return JSON.parse(
+      response.data.choices[0].message.content
+        .trim()
+        .replace(/^```json\n|```$/g, "")
+    );
   } catch (error) {
     console.log(error.response?.data || error.message);
     throw error;
